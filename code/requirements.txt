@@ -1,0 +1,5 @@
+tenseal
+streamlit
+numpy
+plotly
+pandas
