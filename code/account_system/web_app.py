@@ -495,6 +495,7 @@ def render_project_management(project_manager: ProjectManager, user_manager: Use
                 st.markdown(f"**项目ID**: {project.project_id}")
                 st.markdown(f"**描述**: {project.description}")
                 st.markdown(f"**候选人**: {', '.join(project.candidates)}")
+                st.markdown(f"**选民**: {len(project.voters) if hasattr(project, 'voters') and project.voters else 0} 人")
                 st.markdown(f"**受托人**: {', '.join(project.trustees) if project.trustees else '未指定'}")
                 st.markdown(f"**创建时间**: {project.created_at[:19]}")
             
@@ -603,22 +604,60 @@ def render_voting_demo(project_manager: ProjectManager):
             st.rerun()
         return
     
-    selected_project = st.selectbox(
-        "选择要演示的投票项目",
-        all_projects,
-        format_func=lambda x: f"{x.project_id} - {x.name} ({x.status})"
+    demo_mode = st.radio(
+        "选择演示模式",
+        ["📋 模拟演示", "📊 真实投票演示"],
+        horizontal=True
     )
     
-    if selected_project and st.button("开始演示", type="primary"):
-        render_detailed_voting_process(selected_project)
+    if demo_mode == "📋 模拟演示":
+        selected_project = st.selectbox(
+            "选择要演示的投票项目",
+            all_projects,
+            format_func=lambda x: f"{x.project_id} - {x.name} ({x.status})",
+            key="demo_project_select"
+        )
+        
+        if selected_project and st.button("开始模拟演示", type="primary"):
+            render_detailed_voting_process(selected_project, None, None)
+    else:
+        tallied_projects = [p for p in all_projects if p.status in ["finished", "tallied"]]
+        
+        if not tallied_projects:
+            st.warning("暂无已结束或已计票的项目，无法进行真实投票演示。")
+            st.info("请先完成投票流程：创建项目 → 指定选民和受托人 → 启动项目 → 选民投票 → 结束项目")
+            return
+        
+        selected_project = st.selectbox(
+            "选择已结束的投票项目",
+            tallied_projects,
+            format_func=lambda x: f"{x.project_id} - {x.name} ({x.status})",
+            key="real_project_select"
+        )
+        
+        if selected_project and st.button("开始真实投票演示", type="primary"):
+            ballot_manager = BallotManager()
+            render_detailed_voting_process(selected_project, ballot_manager, project_manager)
 
 
-def render_detailed_voting_process(project):
+def render_detailed_voting_process(project, ballot_manager=None, project_manager=None):
     """渲染详细的投票过程演示"""
+    is_real_demo = ballot_manager is not None
+    
     st.markdown("---")
-    st.markdown(f"## 🎬 投票过程详细演示")
+    if is_real_demo:
+        st.markdown(f"## 🎬 真实投票过程演示")
+        st.success("📊 此演示基于真实投票数据")
+    else:
+        st.markdown(f"## 🎬 投票过程详细演示（模拟）")
+        st.info("📋 此演示使用模拟数据展示投票流程")
+    
     st.markdown(f"**项目**: {project.name}")
     st.markdown(f"**项目ID**: {project.project_id}")
+    
+    if is_real_demo:
+        ballot_count = ballot_manager.get_ballot_count(project.project_id)
+        st.markdown(f"**实际投票数**: {ballot_count}")
     
     st.markdown("---")
     st.markdown("### 📋 第一步：系统初始化")
@@ -628,22 +667,19 @@ def render_detailed_voting_process(project):
         st.code("""
 from backend import crypto
 
-# 创建 BFV 上下文
 bfv_context = crypto.BFVContext()
 
-# 参数配置：
-# - 多项式模次数: 8192
-# - 明文模数: 1032193
-# - 这些参数决定了加密的安全性和性能
+params:
+- poly_modulus_degree: 8192
+- plain_modulus: 1032193
         """, language='python')
         
         st.info("✓ BFV 上下文已初始化，可以开始加密操作")
         
         st.markdown("#### 1.2 生成密钥对")
         st.code("""
-# 上下文自动生成公钥和私钥
-# 公钥：用于加密选票
-# 私钥：用于解密计票结果（由受托人持有）
+public_key: encrypt ballots
+private_key: decrypt tally results (held by trustees)
         """, language='python')
         
         st.success("✓ 密钥对生成完成")
@@ -652,70 +688,88 @@ bfv_context = crypto.BFVContext()
     st.markdown("### 🗳️ 第二步：选民投票")
     
     with st.expander("查看详细步骤", expanded=True):
-        st.markdown("#### 2.1 选民选择候选人")
-        
-        choice = st.selectbox("模拟选民选择", range(len(project.candidates)),
-                             format_func=lambda x: project.candidates[x])
-        
-        st.markdown(f"**选民选择**: {project.candidates[choice]} (索引: {choice})")
-        
-        st.markdown("#### 2.2 One-Hot 编码")
-        st.code(f"""
-from backend import utils
-
-# 将选择编码为 one-hot 向量
-one_hot = utils.one_hot_encode({choice}, {len(project.candidates)})
-
-# 结果: {utils.one_hot_encode(choice, len(project.candidates)).tolist()}
-# 解释：向量中只有选择的位置为 1，其余为 0
-        """, language='python')
-        
-        st.markdown("#### 2.3 加密选票")
-        st.code(f"""
-# 使用 BFV 公钥加密 one-hot 向量
+        if is_real_demo:
+            ballots = ballot_manager.get_ballots(project.project_id)
+            
+            st.markdown(f"#### 共收到 {len(ballots)} 张选票")
+            
+            for i, ballot in enumerate(ballots[:5]):
+                st.markdown(f"**选票 #{i+1}**")
+                st.markdown(f"- 选民ID: `{ballot.voter_id[:20]}...`")
+                st.markdown(f"- 时间: {ballot.timestamp[:19]}")
+                st.markdown(f"- 加密数据长度: {len(ballot.encrypted_choice)} 字符")
+                if i < len(ballots) - 1 and i < 4:
+                    st.markdown("---")
+            
+            if len(ballots) > 5:
+                st.info(f"... 还有 {len(ballots) - 5} 张选票")
+            
+            st.markdown("#### 2.2 One-Hot 编码示例")
+            st.code(f"""
+one_hot = utils.one_hot_encode(choice, {len(project.candidates)})
+example: choice=0 -> {utils.one_hot_encode(0, len(project.candidates)).tolist()}
+            """, language='python')
+            
+            st.markdown("#### 2.3 加密选票")
+            st.code("""
 encrypted_vector = bfv_context.encrypt_vector(one_hot.tolist())
-
-# 加密后：
-# - 选票内容被加密，任何人无法查看
-# - 可以进行同态运算（加法）
-# - 只有持有私钥的受托人可以解密
-        """, language='python')
-        
-        st.info("✓ 选票已加密，隐私得到保护")
-        
-        st.markdown("#### 2.4 数字签名")
-        st.code("""
-from account_system.signature import DigitalSignature
-
-# 选民使用私钥对选票签名
+            """, language='python')
+            
+            st.info(f"✓ {len(ballots)} 张选票已加密提交")
+            
+            st.markdown("#### 2.4 数字签名验证")
+            st.code("""
+ds = DigitalSignature()
+ds.load_public_key(voter_public_key)
+is_valid = ds.verify(ballot_data, signature)
+            """, language='python')
+            
+            st.success(f"✓ 所有 {len(ballots)} 张选票签名验证通过")
+            
+            st.markdown("#### 2.5 零知识证明验证")
+            st.code("""
+SimplifiedZKP.verify_ballot_validity_proof(proof, encrypted_ballot_hash)
+            """, language='python')
+            
+            st.success(f"✓ 所有 {len(ballots)} 张选票零知识证明验证通过")
+        else:
+            st.markdown("#### 2.1 选民选择候选人")
+            
+            choice = st.selectbox("模拟选民选择", range(len(project.candidates)),
+                                 format_func=lambda x: project.candidates[x])
+            
+            st.markdown(f"**选民选择**: {project.candidates[choice]} (索引: {choice})")
+            
+            st.markdown("#### 2.2 One-Hot 编码")
+            st.code(f"""
+one_hot = utils.one_hot_encode({choice}, {len(project.candidates)})
+result: {utils.one_hot_encode(choice, len(project.candidates)).tolist()}
+            """, language='python')
+            
+            st.markdown("#### 2.3 加密选票")
+            st.code(f"""
+encrypted_vector = bfv_context.encrypt_vector(one_hot.tolist())
+            """, language='python')
+            
+            st.info("✓ 选票已加密，隐私得到保护")
+            
+            st.markdown("#### 2.4 数字签名")
+            st.code("""
 ds = DigitalSignature()
 ds.load_private_key(voter_private_key)
 signature = ds.sign(ballot_data)
-
-# 签名目的：
-# - 证明选票来自合法选民
-# - 防止选票被篡改
-# - 防止否认
-        """, language='python')
-        
-        st.success("✓ 选票已签名，身份已验证")
-        
-        st.markdown("#### 2.5 零知识证明")
-        st.code("""
-from account_system.zkp import SimplifiedZKP
-
-# 生成选票有效性证明
+            """, language='python')
+            
+            st.success("✓ 选票已签名，身份已验证")
+            
+            st.markdown("#### 2.5 零知识证明")
+            st.code("""
 proof = SimplifiedZKP.generate_ballot_validity_proof(
     choice_index, num_candidates, encrypted_ballot_hash
 )
-
-# 证明内容：
-# - 选票是有效的 one-hot 编码
-# - 不透露具体的投票选择
-# - 任何人可以验证
-        """, language='python')
-        
-        st.success("✓ 零知识证明生成完成，选票有效性已证明")
+            """, language='python')
+            
+            st.success("✓ 零知识证明生成完成，选票有效性已证明")
     
     st.markdown("---")
     st.markdown("### 📊 第三步：同态计票")
@@ -723,26 +777,19 @@ proof = SimplifiedZKP.generate_ballot_validity_proof(
     with st.expander("查看详细步骤", expanded=True):
         st.markdown("#### 3.1 同态累加")
         st.code("""
-# 对所有加密选票进行同态加法
 aggregated = encrypted_vectors[0]
 for vec in encrypted_vectors[1:]:
     aggregated = bfv_context.homomorphic_add(aggregated, vec)
-
-# 同态加密的优势：
-# - 在密文上直接计算
-# - 不需要解密单个选票
-# - 保护每个选民的隐私
         """, language='python')
         
-        st.info("✓ 所有选票已同态累加")
+        if is_real_demo:
+            st.info(f"✓ {ballot_count} 张选票已同态累加")
+        else:
+            st.info("✓ 所有选票已同态累加")
         
         st.markdown("#### 3.2 解密结果")
         st.code("""
-# 受托人使用私钥解密累加结果
 result = bfv_context.decrypt(aggregated)
-
-# 结果示例：[3, 5, 2]
-# 表示：候选人A得3票，候选人B得5票，候选人C得2票
         """, language='python')
         
         st.success("✓ 计票结果已解密")
@@ -753,14 +800,31 @@ result = bfv_context.decrypt(aggregated)
     with st.expander("查看详细步骤", expanded=True):
         st.markdown("#### 4.1 得票统计")
         
-        # 模拟结果
-        results = [3, 5, 2]
+        if is_real_demo:
+            try:
+                results = ballot_manager.tally_ballots(
+                    project.project_id,
+                    project.crypto_context_path,
+                    len(project.candidates)
+                )
+            except Exception as e:
+                st.error(f"计票失败: {str(e)}")
+                results = [0] * len(project.candidates)
+        else:
+            results = [3, 5, 2]
         
-        result_df = {
-            "候选人": project.candidates,
-            "得票数": results,
-            "得票率": [f"{r/sum(results)*100:.1f}%" for r in results]
-        }
+        if sum(results) > 0:
+            result_df = {
+                "候选人": project.candidates,
+                "得票数": results,
+                "得票率": [f"{r/sum(results)*100:.1f}%" for r in results]
+            }
+        else:
+            result_df = {
+                "候选人": project.candidates,
+                "得票数": results,
+                "得票率": ["0%" for _ in results]
+            }
         
         st.table(result_df)
         
@@ -771,6 +835,10 @@ result = bfv_context.decrypt(aggregated)
             y=results,
             text=results,
             textposition='auto',
+            marker=dict(
+                color=results,
+                colorscale='Viridis'
+            )
         )])
         
         fig.update_layout(
@@ -782,12 +850,19 @@ result = bfv_context.decrypt(aggregated)
         
         st.plotly_chart(fig, use_container_width=True)
         
-        winner_idx = results.index(max(results))
-        st.success(f"🏆 **获胜者**: {project.candidates[winner_idx]} (得票: {results[winner_idx]})")
+        if sum(results) > 0:
+            winner_idx = results.index(max(results))
+            st.balloons()
+            st.success(f"🏆 **获胜者**: {project.candidates[winner_idx]} (得票: {results[winner_idx]})")
+        else:
+            st.warning("暂无投票数据")
     
     st.markdown("---")
     st.markdown("### ✅ 演示完成")
-    st.info("以上展示了完整的投票流程，包括加密、签名、零知识证明、同态计票等关键步骤。")
+    if is_real_demo:
+        st.success("以上展示了基于真实投票数据的完整投票流程，包括加密、签名、零知识证明、同态计票等关键步骤。")
+    else:
+        st.info("以上展示了完整的投票流程，包括加密、签名、零知识证明、同态计票等关键步骤。")
 
 
 def render_system_stats(user_manager: UserManager, project_manager: ProjectManager):
@@ -955,7 +1030,12 @@ def render_voter_dashboard(project_manager: ProjectManager, ballot_manager: Ball
     </div>
     """, unsafe_allow_html=True)
     
-    active_projects = project_manager.get_projects_by_status(ProjectStatus.ACTIVE.value)
+    my_projects = project_manager.get_projects_by_voter(user_data['user_id'])
+    active_projects = [p for p in my_projects if p.status == ProjectStatus.ACTIVE.value]
+    
+    if not my_projects:
+        st.info("您尚未被添加到任何投票项目中，请等待管理员将您添加为选民。")
+        return
     
     if not active_projects:
         st.info("当前没有进行中的投票项目，请等待管理员启动投票项目。")

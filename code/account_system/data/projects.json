@@ -8,11 +8,21 @@
         "萝卜",
         "纸巾"
       ],
-      "status": "draft",
+      "status": "active",
       "created_at": "2026-04-12T00:35:17.888684",
       "created_by": "admin",
-      "trustees": [],
-      "start_time": null,
+      "trustees": [
+        "liubi11",
+        "liubi12"
+      ],
+      "voters": [
+        "liubi01",
+        "liubi02",
+        "liubi03",
+        "liubi04",
+        "liubi05"
+      ],
+      "start_time": "2026-04-12T01:01:09.702421",
       "end_time": null,
       "crypto_context_path": "code/account_system/data/crypto_project_001"
     },
@@ -29,6 +39,7 @@
       "created_at": "2026-04-12T00:35:39.562806",
       "created_by": "admin",
       "trustees": [],
+      "voters": [],
       "start_time": null,
       "end_time": null,
       "crypto_context_path": "code/account_system/data/crypto_project_002"
@@ -46,10 +57,28 @@
       "created_at": "2026-04-12T00:36:03.686248",
       "created_by": "admin",
       "trustees": [],
+      "voters": [],
       "start_time": null,
       "end_time": null,
       "crypto_context_path": "code/account_system/data/crypto_project_003"
+    },
+    {
+      "project_id": "project_004",
+      "name": "demo01",
+      "description": "",
+      "candidates": [
+        "萝卜",
+        "纸巾"
+      ],
+      "status": "draft",
+      "created_at": "2026-04-12T01:00:34.391391",
+      "created_by": "admin",
+      "trustees": [],
+      "voters": [],
+      "start_time": null,
+      "end_time": null,
+      "crypto_context_path": "code/account_system/data/crypto_project_004"
     }
   ],
-  "project_counter": 3
+  "project_counter": 4
 }

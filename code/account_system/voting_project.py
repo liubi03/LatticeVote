@@ -47,6 +47,8 @@ class VotingProject:
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> 'VotingProject':
         """从字典创建项目对象"""
+        if 'voters' not in data:
+            data['voters'] = []
         return cls(**data)
 
 
