@@ -1,0 +1,53 @@
+{
+  "users": [
+    {
+      "user_id": "admin",
+      "username": "admin",
+      "password_hash": "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9",
+      "role": "admin",
+      "status": "active",
+      "created_at": "2026-04-11T00:00:00",
+      "public_key": null,
+      "private_key": null,
+      "approved_at": null,
+      "approved_by": null
+    },
+    {
+      "user_id": "liubi01",
+      "username": "liubi01",
+      "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+      "role": "voter",
+      "status": "active",
+      "created_at": "2026-04-12T00:32:07.304279",
+      "public_key": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxsPRkQq1i3oT4uP9DCIB\nicr89rW4gD57B1VfST+50ODgEKWyAbZ6I0GA9NqkkORaaddRAtR/itZo2YGyHzYW\nF01Q/mGpajI/YSIVOrFm7Vwjv8mJmNUCwYSsMv6olt8hx8Q/+QKBg7WcabzFX9+9\nBg5PmVprDX8wKprRKS0WvUk+k1/fJV/kGOYzTM1Lf8ubAw89klE7fV9nRrUxzolN\nG/OWcbS7pslCxzutp8xsLa25BZ1MgkTO7ypg5y/6cwKfKDoM71pJsvCiLHDM5qZs\nKrEzEvvskYo45svjprNG8eNbsAgszXbiEaO21+Q6uJ8A4uBoW/JTBXLsPyTEuZbd\n7QIDAQAB\n-----END PUBLIC KEY-----\n",
+      "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDGw9GRCrWLehPi\n4/0MIgGJyvz2tbiAPnsHVV9JP7nQ4OAQpbIBtnojQYD02qSQ5Fpp11EC1H+K1mjZ\ngbIfNhYXTVD+YalqMj9hIhU6sWbtXCO/yYmY1QLBhKwy/qiW3yHHxD/5AoGDtZxp\nvMVf370GDk+ZWmsNfzAqmtEpLRa9ST6TX98lX+QY5jNMzUt/y5sDDz2SUTt9X2dG\ntTHOiU0b85ZxtLumyULHO62nzGwtrbkFnUyCRM7vKmDnL/pzAp8oOgzvWkmy8KIs\ncMzmpmwqsTMS++yRijjmy+Oms0bx41uwCCzNduIRo7bX5Dq4nwDi4Ghb8lMFcuw/\nJMS5lt3tAgMBAAECggEALq7ySychQZuQDSOwHMfl5Zer90PyDAjgu3W1Ng6GFYWj\nirVoDBfwMtShNaEesrs3cxFzwP7o39KA+MkJ7WO2J43svnpwoHUhxq4LH2hoPMp9\nyP9MVn19Mrd2/Fksfpb0p6czwUfx5F3k2T7RerWhf0kgL+v5JcfgJ7mJ86pX42fl\nGK8v1T+Dhg2E5mreO+6SYDIbZe8F3ILdP7eCdysAYFPEQSNDJ3yyzuNnPDHUL+lk\nL4EA6O93M7Xm76+weRPNuakbzSlktw+UBluSD9cDnv8VHN2iJ+ogv8tsSWk7oUNt\nw1Kn3EipbZYYK+VQsMkjsesrF3jQw0c8J/MBI3oDfwKBgQDicamAce+N3s8HrWs8\n3w9VveKhKy7FlgnMSt7Vn4la0UMWLW6VHnpWND0ZchUtzRQc7L86PXrO++kKwTzG\nEP57bu9xLj/BsEBQR08ykavFwOIRk1b+yW3+1NgUWz8I3ZxIRhmu+10MQk228AmF\n3/lublNFuCbUNZ4Id4uw1b6SywKBgQDgtUue2YCjtBtLuO7OirOzRC9ahD/Tq91j\nhlTn7TbryqyzC0+ZxI7qyO1Ddl6d0kZeGuSzT/NrD/N7bR0wKZB4jaDVvmf2D85c\n/UMO9A7THllFJAaSZjRQlyaovMfXBbc/E1dXcdAHjO80Wmuj1sMNPHbEC8SjqEYP\nSvnDaR5jJwKBgHOfI7RA+NdQuBcsdkAbiSH3ldtDSFt9E72rUQJ0tlaX2RBe3ELp\nz/9qJvRyKtw7BZULUUz0jVtYhxKFvnlHvhjaeQoqWkWUsBINhyPD+5g6t3PP7rCj\nuzVOCpLCUHo/ZYgFuyF8mXMj+7h38fTYeuznCj/kGndqdSnPmJUPXoJnAoGBALOo\nf9N7dtxr7b73FwfP4akchPfL8PQd3x3pkwzzngubucRU8MmyW8nf58MearuoGVa4\nDc5HyAj7ceJm9QVC1h1srwD2AUy8inPSkcDs5MVq6FjdWtvGF2Gv19rlRKnoCgDG\nR/jEKF1BEyc6fAE8fiqhAxvvhMKMkac8fMD91KvVAoGALjYSRVLrAvxSLtm2dn8L\noD4+ri7WMkFSxPik05CGi1O+IW/QQpLyRgfmLCz8dsLOmnvS79v7Y+J/bHs9ixPX\nArR022uh8AjTtmUwqvPsLbjswhgyWQH2nYWzapv5JBGBLYehUmpT/uK++FzLqXlN\n7886lHxpP24aA9zU0sp0sGY=\n-----END PRIVATE KEY-----\n",
+      "approved_at": "2026-04-12T00:34:42.306851",
+      "approved_by": "admin"
+    },
+    {
+      "user_id": "liubi02",
+      "username": "liubi02",
+      "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+      "role": "voter",
+      "status": "active",
+      "created_at": "2026-04-12T00:33:38.105289",
+      "public_key": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnwY5I99awKdaT13+j/uR\ni3Bqkvj/sqzMSg2hXMhPUfFnMY9JIcnwNZV0rc+SHUXfXuAbfgCHymQovaQ756yx\nRBcUnuu5SiX/xd+2k+oIJAhSJQOaOHPiblOPIgHwlCnGhm8Aph+A0LLXIbrOzJOT\nRtrPs705mS/tFVgpQOMr/CumdsNOE1Rlc1MyfRMXAt5PpEZgWutjPW3z5nhPCwQ0\nOBBW+JGQgL1O5gjqGCvU6qWyrkygIHSASgy6cSs7tVtdGS3Et670CIj/GxH7McRx\nTZSjaqq013aqckh4DgUV/rc1PJfYxwR2SE/xgaLYkNhOHEr76tPOC2Uo2kQu6370\nkQIDAQAB\n-----END PUBLIC KEY-----\n",
+      "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCfBjkj31rAp1pP\nXf6P+5GLcGqS+P+yrMxKDaFcyE9R8Wcxj0khyfA1lXStz5IdRd9e4Bt+AIfKZCi9\npDvnrLFEFxSe67lKJf/F37aT6ggkCFIlA5o4c+JuU48iAfCUKcaGbwCmH4DQstch\nus7Mk5NG2s+zvTmZL+0VWClA4yv8K6Z2w04TVGVzUzJ9ExcC3k+kRmBa62M9bfPm\neE8LBDQ4EFb4kZCAvU7mCOoYK9TqpbKuTKAgdIBKDLpxKzu1W10ZLcS3rvQIiP8b\nEfsxxHFNlKNqqrTXdqpySHgOBRX+tzU8l9jHBHZIT/GBotiQ2E4cSvvq084LZSja\nRC7rfvSRAgMBAAECggEAMqsncqwcfOz1w/sVfKfx4GVxt6GZy0LulpvQMcFrMJdD\nw5E9goQWwuP7eNP94NDeEptCdzvRCGYwavhU1AT8uE7IVbiS4bLI07HruSZk8KIs\nFjoXHeyilXePUA0hK/xBkpz0rnm0MAsDq+4bLSjKUNWwPztICmywVFAyWMfpQF/h\neSE+XdqNfdwW81/+EXJ0jUOBxN6ccorS0382XNvTgQ30O9tW+cSlBJDkHJ23Zq1B\ndCK+NI6lqIzPohgHyorecpSeKjmaHQ0naadQwNwWdfyn2UXEpspvt5FZ/Fl8RtzK\nJF/SITQooI7fAe5Pvf6o0NlkrFRUeTfsh3vXb0pM9wKBgQDPumc/jAx6MyFBKDZc\nnimt2GW5H9xJVbkIB6K7jjBItbMa7DdQQqaY6NU4QB3g9fcLbgfKtSfdezF6+egx\n/TvbTy7SXi6afqv5RegN7ihoOhwTFo2yJVykwJ2i7/B5DzQW6GONNpICcjjFddyT\np2p/U3OL9o51DBQ/fJxKUmwEXwKBgQDD+nbf8loEHtwuvyXjZxVsCP3ASnusyUGt\nFCUZoDHRfua/YdNyIcLk7b/v1bcLRmQThHRlnqHhftBC0e6pjCbgCrnfbcNn6s84\nBqvt6WYWyy/EmTaj6NJQv2D/gLdHWlFG23pPXUvXv/SqnGj1dZnVoaan546+E91P\n7/hkD1otDwKBgELroUGGo6pmeGseQk0aIwE/ep3mFriFZkOg+hsEFqgF6TpeKP+x\nSSxvrekeNsH3W2wSOW5jaAFhI7KjedtI4pSncMUS1F6vOkXm8Hg0Zk4Vkl/P3zwp\n7yugZehM9iJ59GUA3rlqgCVLmOB8NOBYieWVA99uQbyRdKBzS4JiBSxvAoGBAJcU\n0G3GrKR+kemrzG6puncF23FROlSy9mGSpSNDPwStGwAxT0uuQUwxCQXAsRMNGft9\n4imxCEUJeU35/05P0GxpeG+Jc9n5x/P+GK8Zfm1WCKY8I0ZrJy++ye1O8nwcYYoJ\nixoB54UU425fk/6ewZBSxWKtfXqFX9jPO6MPvsn7AoGBALvuftEZtXK9TyEU3g48\n/f75BsmHuh+Y7o6dBiMYBlQtfDa9P6MLGLlwkicV4qmNFa3SPZooeuUiHRz1igc6\nSRZp889Ei5Yg7pYfhlr9+jmIo3qHaxn0T66CJBUeARkT59I44juYwJVtpjOEFtG1\n7n613eOOn/phj4FSR5sKWUyP\n-----END PRIVATE KEY-----\n",
+      "approved_at": "2026-04-12T00:34:43.936524",
+      "approved_by": "admin"
+    },
+    {
+      "user_id": "liubi11",
+      "username": "liubi11",
+      "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+      "role": "trustee",
+      "status": "active",
+      "created_at": "2026-04-12T00:50:52.355519",
+      "public_key": null,
+      "private_key": null,
+      "approved_at": "2026-04-12T00:51:05.616302",
+      "approved_by": "admin"
+    }
+  ],
+  "pending_users": []
+}

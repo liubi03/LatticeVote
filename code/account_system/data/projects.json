@@ -1,0 +1,55 @@
+{
+  "projects": [
+    {
+      "project_id": "project_001",
+      "name": "demo",
+      "description": "中期展示demo",
+      "candidates": [
+        "萝卜",
+        "纸巾"
+      ],
+      "status": "draft",
+      "created_at": "2026-04-12T00:35:17.888684",
+      "created_by": "admin",
+      "trustees": [],
+      "start_time": null,
+      "end_time": null,
+      "crypto_context_path": "code/account_system/data/crypto_project_001"
+    },
+    {
+      "project_id": "project_002",
+      "name": "演示投票项目",
+      "description": "这是一个用于演示投票过程的示例项目",
+      "candidates": [
+        "候选人A",
+        "候选人B",
+        "候选人C"
+      ],
+      "status": "draft",
+      "created_at": "2026-04-12T00:35:39.562806",
+      "created_by": "admin",
+      "trustees": [],
+      "start_time": null,
+      "end_time": null,
+      "crypto_context_path": "code/account_system/data/crypto_project_002"
+    },
+    {
+      "project_id": "project_003",
+      "name": "演示投票项目",
+      "description": "这是一个用于演示投票过程的示例项目",
+      "candidates": [
+        "候选人A",
+        "候选人B",
+        "候选人C"
+      ],
+      "status": "draft",
+      "created_at": "2026-04-12T00:36:03.686248",
+      "created_by": "admin",
+      "trustees": [],
+      "start_time": null,
+      "end_time": null,
+      "crypto_context_path": "code/account_system/data/crypto_project_003"
+    }
+  ],
+  "project_counter": 3
+}
