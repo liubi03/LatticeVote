@@ -16,20 +16,20 @@ def one_hot_encode(choice: int, num_candidates: int) -> np.ndarray:
         num_candidates: 候选人总数
     
     返回:
-        one-hot 编码的 numpy 向量
+        one-hot 编码的 numpy 向量（整数类型）
     
     异常:
         ValueError: 当选择无效时抛出
     
     示例:
         >>> one_hot_encode(1, 3)
-        array([0., 1., 0.])
+        array([0, 1, 0])
     """
     if not validate_vote_choice(choice, num_candidates):
         raise ValueError(f"无效的投票选择: choice={choice}, num_candidates={num_candidates}")
     
-    vector = np.zeros(num_candidates, dtype=np.float64)
-    vector[choice] = 1.0
+    vector = np.zeros(num_candidates, dtype=np.int64)
+    vector[choice] = 1
     return vector
 
 

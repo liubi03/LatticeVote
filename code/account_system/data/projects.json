@@ -78,7 +78,33 @@
       "start_time": null,
       "end_time": null,
       "crypto_context_path": "code/account_system/data/crypto_project_004"
+    },
+    {
+      "project_id": "project_005",
+      "name": "中期展示",
+      "description": "后量子密码投票系统中期展示演示项目",
+      "candidates": [
+        "萝卜",
+        "纸巾"
+      ],
+      "status": "finished",
+      "created_at": "2026-04-12T13:27:30.712902",
+      "created_by": "admin",
+      "trustees": [
+        "liubi11",
+        "liubi12"
+      ],
+      "voters": [
+        "liubi01",
+        "liubi02",
+        "liubi03",
+        "liubi04",
+        "liubi05"
+      ],
+      "start_time": "2026-04-12T13:27:31.291216",
+      "end_time": "2026-04-12T13:27:34.456621",
+      "crypto_context_path": "code/account_system/data/crypto_project_005"
     }
   ],
-  "project_counter": 4
+  "project_counter": 5
 }

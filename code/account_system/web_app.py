@@ -22,197 +22,298 @@ from backend import crypto, utils
 
 
 def set_custom_style():
-    """设置自定义样式"""
+    """设置自定义样式 - 参考 Helios 设计风格"""
     st.markdown("""
     <style>
     /* 全局样式 */
-    .main {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    .main .block-container {
+        padding-top: 2rem;
+        max-width: 1200px;
     }
     
     /* 标题样式 */
     h1 {
-        color: #1f77b4;
-        font-family: 'Arial', sans-serif;
+        color: #333;
+        font-family: 'Helvetica Neue', Arial, sans-serif;
         text-align: center;
         padding: 20px;
-        background: linear-gradient(90deg, #667eea, #764ba2);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        font-weight: 800;
+        font-weight: 600;
+        border-bottom: 2px solid #fc9;
+        margin-bottom: 20px;
     }
     
     h2 {
-        color: #764ba2;
-        font-family: 'Arial', sans-serif;
-        border-bottom: 3px solid #667eea;
-        padding-bottom: 10px;
+        color: #333;
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        background: #fc9;
+        border-bottom: 1px solid #f90;
+        padding: 8px 15px;
+        font-size: 1.5em;
+        margin-top: 20px;
     }
     
     h3 {
-        color: #667eea;
-        font-family: 'Arial', sans-serif;
+        color: #666;
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        font-size: 1.2em;
     }
     
     /* 按钮样式 */
     .stButton>button {
-        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border: none;
-        padding: 12px 30px;
-        border-radius: 25px;
+        background: #fc9;
+        color: #333;
+        border: 1px solid #f90;
+        padding: 10px 25px;
+        border-radius: 5px;
         font-weight: 600;
-        transition: all 0.3s;
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        transition: all 0.2s;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
     
     .stButton>button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        background: #f90;
+        color: white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+    
+    .stButton>button[kind="primary"] {
+        background: #f90;
+        color: white;
     }
     
     /* 输入框样式 */
     .stTextInput>div>div>input {
-        border: 2px solid #667eea;
-        border-radius: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
         padding: 10px;
-        transition: all 0.3s;
+        transition: all 0.2s;
     }
     
     .stTextInput>div>div>input:focus {
-        border-color: #764ba2;
-        box-shadow: 0 0 10px rgba(118, 75, 162, 0.3);
+        border-color: #fc9;
+        box-shadow: 0 0 5px rgba(255, 204, 153, 0.5);
     }
     
     /* 卡片样式 */
     .card {
         background: white;
-        border-radius: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
         padding: 20px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        margin: 10px 0;
-        transition: all 0.3s;
+        margin: 15px 0;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
     
     .card:hover {
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        transform: translateY(-5px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     }
     
     /* 侧边栏样式 */
-    .css-1d391kg {
-        background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+    section[data-testid="stSidebar"] {
+        background: #f5f5f5;
+        border-right: 1px solid #ddd;
+    }
+    
+    section[data-testid="stSidebar"] .element-container {
+        margin-bottom: 10px;
     }
     
     /* 成功消息 */
     .stSuccess {
-        background: linear-gradient(90deg, #84fab0 0%, #8fd3f4 100%);
-        color: #155724;
-        border: none;
-        border-radius: 10px;
+        background: #dff0d8;
+        color: #3c763d;
+        border: 1px solid #d6e9c6;
+        border-radius: 5px;
         padding: 15px;
     }
     
     /* 警告消息 */
     .stWarning {
-        background: linear-gradient(90deg, #ffecd2 0%, #fcb69f 100%);
-        color: #856404;
-        border: none;
-        border-radius: 10px;
+        background: #fcf8e3;
+        color: #8a6d3b;
+        border: 1px solid #faebcc;
+        border-radius: 5px;
         padding: 15px;
     }
     
     /* 错误消息 */
     .stError {
-        background: linear-gradient(90deg, #ff9a9e 0%, #fecfef 100%);
-        color: #721c24;
-        border: none;
-        border-radius: 10px;
+        background: #f2dede;
+        color: #a94442;
+        border: 1px solid #ebccd1;
+        border-radius: 5px;
         padding: 15px;
     }
     
     /* 信息消息 */
     .stInfo {
-        background: linear-gradient(90deg, #a1c4fd 0%, #c2e9fb 100%);
-        color: #0c5460;
-        border: none;
-        border-radius: 10px;
+        background: #d9edf7;
+        color: #31708f;
+        border: 1px solid #bce8f1;
+        border-radius: 5px;
         padding: 15px;
     }
     
     /* 表格样式 */
     .stTable {
-        border-radius: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
         overflow: hidden;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .stTable th {
+        background: #f5f5f5;
+        border-bottom: 2px solid #fc9;
+        padding: 10px;
+    }
+    
+    .stTable td {
+        border-bottom: 1px solid #eee;
+        padding: 8px 10px;
+    }
+    
+    .stTable tr:hover {
+        background: #fffde7;
     }
     
     /* 进度条 */
-    .stProgress > div > div {
-        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    .stProgress > div > div > div {
+        background: #fc9;
     }
     
     /* 标签页 */
     .stTabs [data-baseweb="tab-list"] {
-        gap: 8px;
+        gap: 0;
+        border-bottom: 2px solid #fc9;
     }
     
     .stTabs [data-baseweb="tab"] {
-        border-radius: 10px 10px 0 0;
+        border-radius: 5px 5px 0 0;
         padding: 10px 20px;
-        background-color: #f0f2f6;
-        transition: all 0.3s;
+        background-color: #f5f5f5;
+        border: 1px solid #ddd;
+        border-bottom: none;
+        transition: all 0.2s;
+        margin-right: 2px;
     }
     
     .stTabs [aria-selected="true"] {
-        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-        color: white;
+        background: #fc9;
+        color: #333;
+        border-color: #f90;
+        font-weight: 600;
     }
     
     /* 指标卡片 */
     [data-testid="stMetric"] {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border-radius: 15px;
-        padding: 20px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        text-align: center;
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: white;
+        border: 1px solid #ddd;
+        border-left: 4px solid #fc9;
+        border-radius: 5px;
+        padding: 15px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
     
     [data-testid="stMetricValue"] {
-        font-size: 2rem;
-        color: #ffffff !important;
+        font-size: 1.8rem;
+        color: #333 !important;
         font-weight: 700;
     }
     
     [data-testid="stMetricLabel"] {
-        color: #f0f0f0 !important;
-        font-weight: 600;
+        color: #666 !important;
+        font-weight: 500;
+        font-size: 0.9em;
+    }
+    
+    /* Expander 样式 */
+    .streamlit-expanderHeader {
+        background: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 10px;
+    }
+    
+    .streamlit-expanderHeader:hover {
+        background: #fc9;
     }
     
     /* 动画效果 */
     @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
+        from { opacity: 0; transform: translateY(10px); }
         to { opacity: 1; transform: translateY(0); }
     }
     
     .element-container {
-        animation: fadeIn 0.5s ease-out;
+        animation: fadeIn 0.3s ease-out;
     }
     
     /* 自定义容器 */
     .custom-container {
         background: white;
-        border-radius: 15px;
-        padding: 25px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 20px;
         margin: 15px 0;
     }
     
-    /* 图标增强 */
-    .icon-large {
-        font-size: 3rem;
-        margin-bottom: 10px;
+    /* 高亮框 */
+    .highlight-box {
+        background: #fffde7;
+        border: 1px solid #fc9;
+        border-radius: 5px;
+        padding: 15px;
+        margin: 10px 0;
+    }
+    
+    /* 状态标签 */
+    .status-draft { color: #666; }
+    .status-active { color: #3c763d; font-weight: bold; }
+    .status-paused { color: #8a6d3b; }
+    .status-finished { color: #31708f; }
+    .status-tallied { color: #3c763d; font-weight: bold; }
+    
+    /* 投票选项样式 */
+    .vote-option {
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 15px;
+        margin: 10px 0;
+        transition: all 0.2s;
+    }
+    
+    .vote-option:hover {
+        border-color: #fc9;
+        background: #fffde7;
+    }
+    
+    .vote-option.selected {
+        border-color: #f90;
+        background: #fff8e1;
+    }
+    
+    /* 进度步骤 */
+    .progress-step {
+        display: inline-block;
+        padding: 8px 15px;
+        background: #eee;
+        color: #666;
+        border: 1px solid #ccc;
+        margin: 0 2px;
+    }
+    
+    .progress-step.active {
+        background: #fc9;
+        color: #333;
+        border-color: #f90;
+        font-weight: bold;
+    }
+    
+    .progress-step.completed {
+        background: #dff0d8;
+        color: #3c763d;
+        border-color: #d6e9c6;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -231,13 +332,11 @@ def init_session_state():
 def render_login_page(user_manager: UserManager, auth_manager: AuthManager):
     """渲染登录页面"""
     st.markdown("""
-    <div style='text-align: center; padding: 30px;'>
-        <h1 style='font-size: 3rem; margin-bottom: 10px;'>🗳️ LatticeVote</h1>
-        <p style='font-size: 1.2rem; color: #666;'>基于格密码的后量子安全电子投票系统</p>
+    <div style='text-align: center; padding: 20px; border-bottom: 2px solid #fc9; margin-bottom: 30px;'>
+        <h1 style='font-size: 2.5rem; margin: 0; color: #333;'>LatticeVote</h1>
+        <p style='font-size: 1rem; color: #666; margin-top: 10px;'>基于格密码的后量子安全电子投票系统</p>
     </div>
     """, unsafe_allow_html=True)
-    
-    st.markdown("<br>", unsafe_allow_html=True)
     
     col1, col2, col3 = st.columns([1, 2, 1])
     
@@ -275,32 +374,24 @@ def render_login_page(user_manager: UserManager, auth_manager: AuthManager):
 def render_register_page(user_manager: UserManager):
     """渲染注册页面"""
     st.markdown("""
-    <div style='text-align: center; padding: 30px;'>
-        <h1 style='font-size: 3rem; margin-bottom: 10px;'>🗳️ LatticeVote</h1>
-        <p style='font-size: 1.2rem; color: #666;'>基于格密码的后量子安全电子投票系统</p>
+    <div style='text-align: center; padding: 20px; border-bottom: 2px solid #fc9; margin-bottom: 30px;'>
+        <h1 style='font-size: 2.5rem; margin: 0; color: #333;'>LatticeVote</h1>
+        <p style='font-size: 1rem; color: #666; margin-top: 10px;'>基于格密码的后量子安全电子投票系统</p>
     </div>
     """, unsafe_allow_html=True)
-    
-    st.markdown("<br>", unsafe_allow_html=True)
     
     col1, col2, col3 = st.columns([1, 2, 1])
     
     with col2:
-        st.markdown("""
-        <div class='custom-container'>
-            <h2 style='text-align: center; color: #667eea;'>📝 用户注册</h2>
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown("### 用户注册")
         
-        reg_username = st.text_input("👤 用户名", key="reg_username", placeholder="请输入用户名")
-        reg_password = st.text_input("🔑 密码", type="password", key="reg_password", placeholder="请输入密码")
-        reg_password_confirm = st.text_input("🔑 确认密码", type="password", key="reg_password_confirm", placeholder="请再次输入密码")
-        reg_role = st.selectbox("🎭 选择角色", ["voter", "trustee"], 
-                               format_func=lambda x: "🗳️ 选民" if x == "voter" else "🔐 受托人")
+        reg_username = st.text_input("用户名", key="reg_username", placeholder="请输入用户名")
+        reg_password = st.text_input("密码", type="password", key="reg_password", placeholder="请输入密码")
+        reg_password_confirm = st.text_input("确认密码", type="password", key="reg_password_confirm", placeholder="请再次输入密码")
+        reg_role = st.selectbox("选择角色", ["voter", "trustee"], 
+                               format_func=lambda x: "选民" if x == "voter" else "受托人")
         
-        st.markdown("<br>", unsafe_allow_html=True)
-        
-        if st.button("✨ 注册", use_container_width=True):
+        if st.button("注册", use_container_width=True):
             if not reg_username or not reg_password:
                 st.warning("⚠️ 请填写所有必填项")
             elif reg_password != reg_password_confirm:
@@ -345,14 +436,13 @@ def render_admin_dashboard(user_manager: UserManager, project_manager: ProjectMa
                           auth_manager: AuthManager):
     """渲染管理员控制台"""
     st.markdown("""
-    <div style='text-align: center; padding: 20px; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); 
-                border-radius: 15px; margin-bottom: 20px;'>
-        <h1 style='color: white; margin: 0; font-size: 2.5rem;'>👑 管理员控制台</h1>
-        <p style='color: #f0f0f0; margin: 10px 0 0 0;'>系统管理与投票演示</p>
+    <div style='text-align: center; padding: 20px; border-bottom: 2px solid #fc9; margin-bottom: 20px;'>
+        <h1 style='color: #333; margin: 0; font-size: 2rem;'>管理员控制台</h1>
+        <p style='color: #666; margin: 10px 0 0 0;'>系统管理与投票演示</p>
     </div>
     """, unsafe_allow_html=True)
     
-    tab1, tab2, tab3, tab4 = st.tabs(["👥 用户管理", "🗳️ 投票项目", "🎬 投票演示", "📊 系统统计"])
+    tab1, tab2, tab3, tab4 = st.tabs(["用户管理", "投票项目", "投票演示", "系统统计"])
     
     with tab1:
         render_user_management(user_manager)
@@ -646,11 +736,11 @@ def render_detailed_voting_process(project, ballot_manager=None, project_manager
     
     st.markdown("---")
     if is_real_demo:
-        st.markdown(f"## 🎬 真实投票过程演示")
-        st.success("📊 此演示基于真实投票数据")
+        st.markdown("## 真实投票过程演示")
+        st.success("此演示基于真实投票数据")
     else:
-        st.markdown(f"## 🎬 投票过程详细演示（模拟）")
-        st.info("📋 此演示使用模拟数据展示投票流程")
+        st.markdown("## 投票过程详细演示（模拟）")
+        st.info("此演示使用模拟数据展示投票流程")
     
     st.markdown(f"**项目**: {project.name}")
     st.markdown(f"**项目ID**: {project.project_id}")
@@ -685,7 +775,7 @@ private_key: decrypt tally results (held by trustees)
         st.success("✓ 密钥对生成完成")
     
     st.markdown("---")
-    st.markdown("### 🗳️ 第二步：选民投票")
+    st.markdown("### 第二步：选民投票")
     
     with st.expander("查看详细步骤", expanded=True):
         if is_real_demo:
@@ -802,13 +892,21 @@ result = bfv_context.decrypt(aggregated)
         
         if is_real_demo:
             try:
+                ballots = ballot_manager.get_ballots(project.project_id)
+                st.write(f"调试: 加载了 {len(ballots)} 张选票")
+                if ballots:
+                    st.write(f"调试: 第一张选票的选民: {ballots[0].voter_id}")
+                
                 results = ballot_manager.tally_ballots(
                     project.project_id,
                     project.crypto_context_path,
                     len(project.candidates)
                 )
+                st.write(f"调试: 计票结果: {results}")
             except Exception as e:
                 st.error(f"计票失败: {str(e)}")
+                import traceback
+                st.code(traceback.format_exc())
                 results = [0] * len(project.candidates)
         else:
             results = [3, 5, 2]
@@ -892,10 +990,9 @@ def render_trustee_dashboard(project_manager: ProjectManager, ballot_manager: Ba
                              user_data: dict):
     """渲染受托人控制台"""
     st.markdown("""
-    <div style='text-align: center; padding: 20px; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); 
-                border-radius: 15px; margin-bottom: 20px;'>
-        <h1 style='color: white; margin: 0; font-size: 2.5rem;'>🔐 受托人控制台</h1>
-        <p style='color: #f0f0f0; margin: 10px 0 0 0;'>参与计票，确保投票公正透明</p>
+    <div style='text-align: center; padding: 20px; border-bottom: 2px solid #fc9; margin-bottom: 20px;'>
+        <h1 style='color: #333; margin: 0; font-size: 2rem;'>受托人控制台</h1>
+        <p style='color: #666; margin: 10px 0 0 0;'>参与计票，确保投票公正透明</p>
     </div>
     """, unsafe_allow_html=True)
     
@@ -1023,10 +1120,9 @@ def render_voter_dashboard(project_manager: ProjectManager, ballot_manager: Ball
                           user_manager: UserManager, user_data: dict):
     """渲染选民控制台"""
     st.markdown("""
-    <div style='text-align: center; padding: 20px; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); 
-                border-radius: 15px; margin-bottom: 20px;'>
-        <h1 style='color: white; margin: 0; font-size: 2.5rem;'>🗳️ 选民控制台</h1>
-        <p style='color: #f0f0f0; margin: 10px 0 0 0;'>参与投票，行使您的权利</p>
+    <div style='text-align: center; padding: 20px; border-bottom: 2px solid #fc9; margin-bottom: 20px;'>
+        <h1 style='color: #333; margin: 0; font-size: 2rem;'>选民控制台</h1>
+        <p style='color: #666; margin: 10px 0 0 0;'>参与投票，行使您的权利</p>
     </div>
     """, unsafe_allow_html=True)
     
@@ -1088,12 +1184,14 @@ def render_voter_dashboard(project_manager: ProjectManager, ballot_manager: Ball
                                 with st.spinner("正在加密和签名选票..."):
                                     user = user_manager.get_user(user_data['user_id'])
                                     
+                                    private_key_pem = private_key_input.replace('\\n', '\n')
+                                    
                                     ballot = ballot_manager.create_ballot(
                                         project_id=project.project_id,
                                         voter_id=user_data['user_id'],
                                         choice=choice,
                                         num_candidates=len(project.candidates),
-                                        private_key_pem=private_key_input,
+                                        private_key_pem=private_key_pem,
                                         public_key_pem=user.public_key,
                                         crypto_context_path=project.crypto_context_path
                                     )

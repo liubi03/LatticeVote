@@ -108,9 +108,12 @@ class ProjectManager:
         project_id = f"project_{self.project_counter:03d}"
         created_at = datetime.now().isoformat()
         
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        crypto_path = os.path.join(current_dir, "data", f"crypto_{project_id}")
         bfv_context = crypto.BFVContext()
-        crypto_path = f"code/account_system/data/crypto_{project_id}"
         bfv_context.save_context(crypto_path)
+        
+        relative_crypto_path = f"code/account_system/data/crypto_{project_id}"
         
         project = VotingProject(
             project_id=project_id,
@@ -122,7 +125,7 @@ class ProjectManager:
             created_by=created_by,
             trustees=[],
             voters=voters if voters else [],
-            crypto_context_path=crypto_path
+            crypto_context_path=relative_crypto_path
         )
         
         self.projects[project_id] = project

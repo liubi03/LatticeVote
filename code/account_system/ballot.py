@@ -50,7 +50,7 @@ class BallotManager:
     
     def _get_project_ballot_file(self, project_id: str) -> str:
         """获取项目选票文件路径"""
-        return f"{self.data_dir}/ballots_{project_id}.json"
+        return os.path.join(self.data_dir, f"ballots_{project_id}.json")
     
     def _load_ballots(self, project_id: str) -> List[Ballot]:
         """加载项目选票"""
@@ -100,8 +100,11 @@ class BallotManager:
         if choice < 0 or choice >= num_candidates:
             raise ValueError(f"无效的选择: {choice}")
         
-        bfv_context = crypto.BFVContext()
-        bfv_context.load_context(crypto_context_path)
+        if not os.path.isabs(crypto_context_path):
+            project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+            crypto_context_path = os.path.join(project_root, crypto_context_path)
+        
+        bfv_context = crypto.BFVContext.load_context(crypto_context_path)
         
         one_hot = utils.one_hot_encode(choice, num_candidates)
         encrypted_vector = bfv_context.encrypt_vector(one_hot.tolist())
@@ -202,8 +205,11 @@ class BallotManager:
         if not ballots:
             return [0] * num_candidates
         
-        bfv_context = crypto.BFVContext()
-        bfv_context.load_context(crypto_context_path)
+        if not os.path.isabs(crypto_context_path):
+            project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+            crypto_context_path = os.path.join(project_root, crypto_context_path)
+        
+        bfv_context = crypto.BFVContext.load_context(crypto_context_path)
         
         import tenseal as ts
         
@@ -219,7 +225,14 @@ class BallotManager:
         
         result = bfv_context.decrypt(aggregated)
         
-        return result[:num_candidates]
+        plain_modulus = bfv_context.plain_modulus
+        final_result = []
+        for r in result[:num_candidates]:
+            if r < 0:
+                r = r + plain_modulus
+            final_result.append(r)
+        
+        return final_result
 
 
 def test_ballot_manager():
