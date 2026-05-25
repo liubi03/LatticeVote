@@ -1,6 +1,10 @@
 tenseal
-streamlit
 numpy
 plotly
 pandas
 cryptography
+fastapi
+uvicorn
+python-jose
+python-multipart
+httpx
